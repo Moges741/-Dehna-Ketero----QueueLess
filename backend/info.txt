@@ -1,1 +1,2 @@
 dbPassword = NJnUCm637uDt_C!d
+JWT_SECRET=e8c9665a95d920ea7f464d7a0e7cde448614b041a8b7709ff0fddfffb58fa7fd
