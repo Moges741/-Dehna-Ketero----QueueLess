@@ -7,7 +7,7 @@ import db from "../config/db.js";
 /**
  * REGISTER USER
  */
- const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
   try {
     let { name, email, phone, password, role, office_id } = req.body;
 
@@ -80,7 +80,7 @@ import db from "../config/db.js";
 /**
  * LOGIN USER (Using NAME + PASSWORD)
  */
- const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     let { name, password } = req.body;
 
@@ -149,8 +149,4 @@ import db from "../config/db.js";
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ msg: "Server error" });
   }
-};
-export default {
-  registerUser,
-  loginUser,
 };
