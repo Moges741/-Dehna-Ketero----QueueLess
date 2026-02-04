@@ -41,3 +41,69 @@ const query = `
     });
     }
 }
+/**
+ * GET ALL OFFICES
+ */
+export const getAllOffices = async (req, res) => {
+  try {
+    const query = `
+      SELECT * FROM offices
+      ORDER BY created_at DESC
+    `;
+
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          msg: "Failed to fetch offices",
+        });
+      }
+
+      res.status(StatusCodes.OK).json({
+        count: results.length,
+        offices: results,
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      msg: "Server error",
+    });
+  }
+};
+
+
+/**
+ * GET OFFICE BY ID
+ */
+
+export const getOfficeById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = `SELECT * FROM offices WHERE id = ? LIMIT 1`;
+
+    db.query(query, [id], (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          msg: "Database error",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+          msg: "Office not found",
+        });
+      }
+
+      res.status(StatusCodes.OK).json(results[0]);
+    });
+
+    }catch (error){
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      msg: "Server error",
+    });
+
+    }
+};
