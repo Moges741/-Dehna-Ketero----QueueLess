@@ -3,7 +3,7 @@ import express from 'express';
 import { initDatabase } from './config/initDb.js';
 import authMiddleware from './middlewares/authMiddleware.js';
 import router from './routes/userRoutes.js';
-// import officeRoutes from './routes/officeRoutes.js';
+import officeRoutes from './routes/officeRoutes.js';
 // import serviceRoutes from './routes/serviceRoutes.js';
 // import queueRoutes from './routes/queueRoutes.js';
 // import ticketRoutes from './routes/ticketRoutes.js';
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 // auth Routes
 app.use('/api/user', router);
 // // office Routes
-// app.use('/api/office',authMiddleware, officeRoutes);
+app.use('/api/office',authMiddleware, officeRoutes);
 // // service Routes
 // app.use('/api/service',authMiddleware, serviceRoutes);
 // // queue Routes
