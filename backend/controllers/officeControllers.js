@@ -107,3 +107,42 @@ export const getOfficeById = async (req, res) => {
 
     }
 };
+
+/**
+ * UPDATE OFFICE
+ */
+
+export const updateOffice = async (req, res) =>{
+    try{
+        const {id} = req.params;
+        let  {name, city, address, phone} = req.body;
+
+        name = xss(name?.trim());
+        city = xss(city?.trim());
+        address = xss(address?.trim());
+        phone = xss(phone?.trim());
+
+const query = `
+      UPDATE offices
+      SET name=?, city=?, address=?, phone=?
+      WHERE id=?
+    `;
+db.query(query, [name, city, address, phone || null, id], (err, result) =>{
+    if(err){
+        console.log(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          msg: "Failed to update office",
+        })
+    }
+    res.status(StatusCodes.OK).json({
+        msg: "Office updated successfully",
+    });
+});
+}catch(error){
+        console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      msg: "Server error",
+    });
+}
+};
+
