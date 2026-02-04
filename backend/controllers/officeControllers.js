@@ -21,7 +21,7 @@ const query = `
       INSERT INTO offices (name, city, address, phone)
       VALUES (?, ?, ?, ?)
     `;
-           db.query(query, [name, city, address, phone || null], (err, result) => {
+           dbConnection.query(query, [name, city, address, phone || null], (err, result) => {
       if (err) {
         console.error(err);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -51,7 +51,7 @@ export const getAllOffices = async (req, res) => {
       ORDER BY created_at DESC
     `;
 
-    db.query(query, (err, results) => {
+    dbConnection.query(query, (err, results) => {
       if (err) {
         console.error(err);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -82,7 +82,7 @@ export const getOfficeById = async (req, res) => {
         const { id } = req.params;
         const query = `SELECT * FROM offices WHERE id = ? LIMIT 1`;
 
-    db.query(query, [id], (err, results) => {
+    dbConnection.query(query, [id], (err, results) => {
       if (err) {
         console.error(err);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -127,7 +127,7 @@ const query = `
       SET name=?, city=?, address=?, phone=?
       WHERE id=?
     `;
-db.query(query, [name, city, address, phone || null, id], (err, result) =>{
+dbConnection.query(query, [name, city, address, phone || null, id], (err, result) =>{
     if(err){
         console.log(err);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -146,3 +146,41 @@ db.query(query, [name, city, address, phone || null, id], (err, result) =>{
 }
 };
 
+/*
+ * TOGGLE OFFICE STATUS (Active / Inactive)
+ */
+
+export const toggleOfficeStatus = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {is_active} = req.body;
+        if (typeof is_active !== "boolean"){
+            return res.status(StatusCodes.BAD_REQUEST).json({
+                msg: "is_active must be true or false",
+            });         
+        }
+    const query = `
+      UPDATE offices
+      SET is_active = ?
+      WHERE id = ?
+    `;
+      dbConnection.query(query, [is_active, id], (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          msg: "Failed to update office status",
+        });
+      }
+
+      res.status(StatusCodes.OK).json({
+        msg: "Office status updated",
+      });
+    });
+    } catch (error) {
+    console.error(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      msg: "Server error",
+    });
+        
+    }
+}
