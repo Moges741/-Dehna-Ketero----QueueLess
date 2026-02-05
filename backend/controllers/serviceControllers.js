@@ -192,3 +192,38 @@ dbConnection.query(
         
     }
 };
+
+export const updateServiceStatus = async (req, res) => {
+  try {
+    if (!isAdminOrManager(req.user.role)) {
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ msg: "Not authorized" });
+    }
+
+    const { serviceId } = req.params;
+    const { is_active } = req.body;
+
+    const sql = `
+      UPDATE services
+      SET is_active = ?
+      WHERE id = ?
+    `;
+
+    db.query(sql, [is_active, serviceId], (err) => {
+      if (err) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "Database error" });
+      }
+
+      res.status(StatusCodes.OK).json({
+        msg: "Service status updated"
+      });
+    });
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server error" });
+  }
+};
