@@ -60,3 +60,29 @@ export const createService = async (req, res) =>{
 
     }
 };
+
+
+// GET ALL SERVICES
+
+export const getAllSevices = async (req, res) => {
+    try {
+           const sql = `SELECT * FROM services WHERE is_active = TRUE`;
+
+    db.query(sql, (err, results) => {
+      if (err) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "Database error" });
+      }
+
+      res.status(StatusCodes.OK).json(results);
+    });
+
+        
+    } catch (error) {
+         res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server error" });
+        
+    }
+}
