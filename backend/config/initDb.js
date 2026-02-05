@@ -24,6 +24,19 @@ export const initDatabase = () => {
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `;
+const createServicesTable = `
+CREATE TABLE IF NOT EXISTS services (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  office_id INT NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  description TEXT,
+  avg_duration_minutes INT DEFAULT 10,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (office_id) REFERENCES offices(id) ON DELETE CASCADE
+);
+`
 
   db.query(createUsersTable, (err) => {
     if (err) {
@@ -37,6 +50,13 @@ export const initDatabase = () => {
       console.error("Error creating offices table:", err);
     } else {
       console.log("Offices table ready");
+    }
+  });
+  db.query(createServicesTable, (err) => {
+    if (err) {
+      console.error("Error creating services table:", err);
+    } else {
+      console.log("Services table ready");
     }
   });
 };
