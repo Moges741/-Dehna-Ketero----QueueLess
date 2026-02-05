@@ -5,7 +5,7 @@ import {
   getOfficeById,
   updateOffice,
   toggleOfficeStatus
-} from "../controllers/officeController.js";
+} from "../controllers/officeControllers.js";
 
 const router = express.Router();
 router.post("/", createOffice);
