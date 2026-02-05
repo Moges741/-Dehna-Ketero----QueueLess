@@ -64,11 +64,11 @@ export const createService = async (req, res) =>{
 
 // GET ALL SERVICES
 
-export const getAllSevices = async (req, res) => {
+export const getAllServices = async (req, res) => {
     try {
            const sql = `SELECT * FROM services WHERE is_active = TRUE`;
 
-    db.query(sql, (err, results) => {
+    dbConnection.query(sql, (err, results) => {
       if (err) {
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -86,3 +86,68 @@ export const getAllSevices = async (req, res) => {
         
     }
 }
+
+// GET SERVICES BY OFFICE
+
+export const getServicesByOffice = async (req, res) => {
+    try {
+        const {office_id} = req.params;
+    const sql = `
+      SELECT * FROM services
+      WHERE office_id = ? AND is_active = TRUE
+    `;
+ dbConnection.query(sql, [office_id], (err, results) => {
+      if (err) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "Database error" });
+      }
+
+      res.status(StatusCodes.OK).json(results);
+    });
+    } catch (error) {
+            res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server error" });
+        
+    }
+};
+
+
+/* =====================================================
+   GET SINGLE SERVICE
+===================================================== */
+
+export const getSingleService = async (req, res) => {
+    try {
+        const {serviceId} = req.params;
+        const sql = `SELECT * FROM services WHERE id = ?`;
+        dbConnection.query(sql, [serviceId], (err, results) => {
+      if (err) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "Database error" });
+      }
+
+      if (results.length === 0) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ msg: "Service not found" });
+      }
+
+      res.status(StatusCodes.OK).json(results[0]);
+    });
+
+    } catch (error) {
+           res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server error" });
+        
+    }
+
+
+}
+
+/* =====================================================
+   UPDATE SERVICE
+===================================================== */
