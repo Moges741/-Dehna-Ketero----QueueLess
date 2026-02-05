@@ -13,13 +13,13 @@ import xss from 'xss'
 // };
 
 // check if user is admin or manager
-const isAdminManager = (role) => {
+const isAdminOrManager = (role) => {
     return role === "admin" || role === "manager";
 }
 
 export const createService = async (req, res) =>{
     try{
-        if(!isAdminManager(req.user.role)){
+        if(!isAdminOrManager(req.user.role)){
             return res
             .status(StatusCodes.FORBIDDEN)
             .json({msg: "Not authorized"});
@@ -151,3 +151,44 @@ export const getSingleService = async (req, res) => {
 /* =====================================================
    UPDATE SERVICE
 ===================================================== */
+export const updateService = async (req, res) => {
+    try {
+       if (!isAdminOrManager(req.user.role)) {
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ msg: "Not authorized" });
+    }
+    const { serviceId } = req.params;
+    let { name, description, avg_duration_minutes } = req.body;
+
+    name = xss(name);
+    description = xss(description);
+
+    const sql = `
+      UPDATE services
+      SET name = ?, description = ?, avg_duration_minutes = ?
+      WHERE id = ?
+    `;
+dbConnection.query(
+      sql,
+      [name, description, avg_duration_minutes, serviceId],
+      (err) => {
+        if (err) {
+          return res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({ msg: "Database error" });
+        }
+
+        res.status(StatusCodes.OK).json({
+          msg: "Service updated successfully"
+        });
+      }
+    );
+    } catch (error) {
+
+       res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server error" });
+        
+    }
+};
