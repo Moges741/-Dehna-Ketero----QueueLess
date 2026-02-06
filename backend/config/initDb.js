@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS tickets (
   FOREIGN KEY (office_id) REFERENCES offices(id) ON DELETE CASCADE,
   FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
 );
-
 `
 
   db.query(createUsersTable, (err) => {
