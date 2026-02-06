@@ -117,3 +117,27 @@ export const getSingleTicket = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
+export const updateTicketStatus = async (req, res) => {
+  try {
+    if (!isStaffOrAdmin(req.user.role)) {
+      return res.status(403).json({ msg: "Not authorized" });
+    }
+
+    const { ticketId } = req.params;
+    const { status } = req.body;
+
+    const sql = `
+      UPDATE tickets
+      SET status = ?
+      WHERE id = ?
+    `;
+
+    db.query(sql, [status, ticketId], (err) => {
+      if (err) return res.status(500).json({ msg: "DB Error" });
+
+      res.json({ msg: "Ticket status updated" });
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+};
