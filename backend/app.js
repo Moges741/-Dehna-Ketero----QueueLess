@@ -22,7 +22,9 @@ dbConnection.getConnection((err) =>{
 })
 
 app.use(express.json());
-// Define a simple route
+
+
+// get 
 app.get('/', (req, res) => {
     res.send('Welcome to QueueLess Backend!');
 });
@@ -31,7 +33,7 @@ app.use('/api/user', router);
 // // office Routes
 app.use('/api/office',authMiddleware, officeRoutes);
 // // service Routes
-// app.use('/api/service',authMiddleware, serviceRoutes);
+app.use('/api/service',authMiddleware, serviceRoutes);
 // // queue Routes
 // app.use('/api/queue',authMiddleware, queueRoutes);
 // // ticket Routes
