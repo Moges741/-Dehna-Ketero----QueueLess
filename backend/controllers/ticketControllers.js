@@ -77,3 +77,24 @@ export const getMyTickets = async (req, res) => {
     res.status(500).json({ msg: "Server error" });
   }
 };
+export const getTicketsByService = async (req, res) => {
+  try {
+    const { serviceId } = req.params;
+    const today = new Date().toISOString().split("T")[0];
+
+    const sql = `
+      SELECT * FROM tickets
+      WHERE service_id = ? AND queue_date = ?
+      AND status IN ('waiting','serving')
+      ORDER BY ticket_number ASC
+    `;
+
+    db.query(sql, [serviceId, today], (err, results) => {
+      if (err) return res.status(500).json({ msg: "DB Error" });
+
+      res.json(results);
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+};
