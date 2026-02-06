@@ -26,7 +26,7 @@ export const createTicket = async (req, res) => {
       ORDER BY ticket_number DESC
       LIMIT 1
     `;
- db.query(lastTicketQuery, [service_id, today], (err, result) => {
+ dbConnection.query(lastTicketQuery, [service_id, today], (err, result) => {
       if (err) {
         return res.status(500).json({ msg: "DB Error" });
       }
@@ -41,7 +41,7 @@ export const createTicket = async (req, res) => {
         (user_id, office_id, service_id, ticket_number, queue_date)
         VALUES (?, ?, ?, ?, ?)
       `;
-       db.query(
+       dbConnection.query(
         insertQuery,
         [userId, office_id, service_id, nextNumber, today],
         (err, insertResult) => {
@@ -74,7 +74,7 @@ export const getMyTickets = async (req, res) => {
     `;
 
 
-    db.query(sql, [userId], (err, results) => {
+    dbConnection.query(sql, [userId], (err, results) => {
       if (err) return res.status(500).json({ msg: "DB Error" });
 
       res.json(results);
@@ -95,7 +95,7 @@ export const getTicketsByService = async (req, res) => {
       ORDER BY ticket_number ASC
     `;
 
-    db.query(sql, [serviceId, today], (err, results) => {
+    dbConnection.query(sql, [serviceId, today], (err, results) => {
       if (err) return res.status(500).json({ msg: "DB Error" });
 
       res.json(results);
@@ -110,7 +110,7 @@ export const getSingleTicket = async (req, res) => {
 
     const sql = `SELECT * FROM tickets WHERE id = ?`;
 
-    db.query(sql, [ticketId], (err, result) => {
+    dbConnection.query(sql, [ticketId], (err, result) => {
       if (err) return res.status(500).json({ msg: "DB Error" });
 
       if (result.length === 0) {
@@ -138,7 +138,7 @@ export const updateTicketStatus = async (req, res) => {
       WHERE id = ?
     `;
 
-    db.query(sql, [status, ticketId], (err) => {
+    dbConnection.query(sql, [status, ticketId], (err) => {
       if (err) return res.status(500).json({ msg: "DB Error" });
 
       res.json({ msg: "Ticket status updated" });
