@@ -37,6 +37,26 @@ CREATE TABLE IF NOT EXISTS services (
   FOREIGN KEY (office_id) REFERENCES offices(id) ON DELETE CASCADE
 );
 `
+const createTicketTable = `
+CREATE TABLE IF NOT EXISTS tickets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  office_id INT NOT NULL,
+  service_id INT NOT NULL,
+
+  ticket_number INT NOT NULL,
+  queue_date DATE NOT NULL,
+
+  status ENUM('waiting','serving','completed','cancelled') DEFAULT 'waiting',
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (office_id) REFERENCES offices(id) ON DELETE CASCADE,
+  FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
+);
+
+`
 
   db.query(createUsersTable, (err) => {
     if (err) {
@@ -57,6 +77,12 @@ CREATE TABLE IF NOT EXISTS services (
       console.error("Error creating services table:", err);
     } else {
       console.log("Services table ready");
+    }
+  });  db.query(createTicketTable, (err) => {
+    if (err) {
+      console.error("Error creating tickets table:", err);
+    } else {
+      console.log("Tickets table ready");
     }
   });
 };
