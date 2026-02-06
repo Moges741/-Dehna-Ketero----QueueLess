@@ -56,7 +56,7 @@ export const createTicket = async (req, res) => {
 
     }
 }
-
+// get my ticket
 export const getMyTickets = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -66,6 +66,7 @@ export const getMyTickets = async (req, res) => {
       WHERE user_id = ?
       ORDER BY created_at DESC
     `;
+
 
     db.query(sql, [userId], (err, results) => {
       if (err) return res.status(500).json({ msg: "DB Error" });
