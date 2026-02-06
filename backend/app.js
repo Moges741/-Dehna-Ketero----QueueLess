@@ -37,7 +37,7 @@ app.use('/api/service',authMiddleware, serviceRoutes);
 // // queue Routes
 // app.use('/api/queue',authMiddleware, queueRoutes);
 // // ticket Routes
-// app.use('/api/ticket',authMiddleware, ticketRoutes);
+app.use('/api/ticket',authMiddleware, ticketRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
