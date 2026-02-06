@@ -1,6 +1,12 @@
 import dbConnection from "../config/db";
 import { StatusCodes } from "http-status-codes";
 
+
+
+const isStaffOrAdmin = (role) => {
+  return role === "admin" || role === "staff" || role === "manager";
+};
+
 export const createTicket = async (req, res) => {
     try {
     const userId = req.userId;
