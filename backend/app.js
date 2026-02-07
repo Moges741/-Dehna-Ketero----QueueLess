@@ -30,7 +30,6 @@ app.get('/', (req, res) => {
 });
 // auth Routes
 app.use('/api/user', router);
-// // office Routes
 app.use('/api/office',authMiddleware, officeRoutes);
 
 app.use('/api/service',authMiddleware, serviceRoutes);
