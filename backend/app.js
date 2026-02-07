@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/user', router);
 // // office Routes
 app.use('/api/office',authMiddleware, officeRoutes);
-// // service Routes
+
 app.use('/api/service',authMiddleware, serviceRoutes);
 // // queue Routes
 // app.use('/api/queue',authMiddleware, queueRoutes);
