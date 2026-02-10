@@ -77,4 +77,22 @@ export const callNextTicket = (req, res) => {
   });
 };
 
+export const getWaitingCount = (req, res) => {
+  const { serviceId } = req.params;
+  const today = new Date().toISOString().split("T")[0];
+
+  const sql = `
+    SELECT COUNT(*) as waiting
+    FROM tickets
+    WHERE service_id = ?
+    AND queue_date = ?
+    AND status = 'waiting'
+  `;
+
+  db.query(sql, [serviceId, today], (err, result) => {
+    if (err) return res.status(500).json({ msg: "DB error" });
+
+    res.json(result[0]);
+  });
+};
 
