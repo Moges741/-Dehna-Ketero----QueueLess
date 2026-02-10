@@ -96,3 +96,29 @@ export const getWaitingCount = (req, res) => {
   });
 };
 
+export const getEstimatedTime = (req, res) => {
+  const { serviceId } = req.params;
+  const today = new Date().toISOString().split("T")[0];
+
+  const sql = `
+    SELECT 
+      COUNT(t.id) as waiting,
+      s.avg_duration_minutes
+    FROM tickets t
+    JOIN services s ON s.id = t.service_id
+    WHERE t.service_id = ?
+    AND t.queue_date = ?
+    AND t.status = 'waiting'
+  `;
+
+  db.query(sql, [serviceId, today], (err, result) => {
+    if (err) return res.status(500).json({ msg: "DB error" });
+
+    const waiting = result[0].waiting;
+    const avg = result[0].avg_duration_minutes;
+
+    res.json({
+      estimated_minutes: waiting * avg
+    });
+  });
+};
