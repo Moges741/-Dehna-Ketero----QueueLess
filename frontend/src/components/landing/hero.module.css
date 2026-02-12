@@ -1,6 +1,6 @@
 .heroBg {
   position: relative;
-  background-image: url("/your-image-path.jpg");
+  background-image: url("../../assets/images/background2.png");
   background-size: cover;
   background-position: center;
 }
