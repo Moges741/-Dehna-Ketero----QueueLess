@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styles from "./navbar.module.css";
 
 const NavBar = () => {
@@ -15,8 +16,8 @@ const NavBar = () => {
             <a href="#services" className="hover:text-green-500 transition">Services</a>
         </div>
         <div className="flex gap-3 items-center">
-            <button className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">Login</button>
-            <button className="px-5 py-2 rounded-xl bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition shadow">Register</button>
+          <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">Login</Link>
+          <button className="px-5 py-2 rounded-xl bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition shadow">Register</button>
         </div>
     </div>
   </nav>

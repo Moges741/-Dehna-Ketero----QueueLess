@@ -1,0 +1,19 @@
+.authBg {
+  background-image: url("../../assets/images/loginImage.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.glassCard {
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.darkOverlay {
+  background: linear-gradient(
+    120deg,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.3)
+  );
+}
