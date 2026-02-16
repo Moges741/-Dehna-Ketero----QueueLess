@@ -1,7 +1,7 @@
 import styles from "./auth.module.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "./authSlice.js";   // adjust path
+import { loginUser } from "./authSlice.js";   
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -32,7 +32,7 @@ const Login = () => {
   useEffect(() => {
     if (successMsg) {
       setTimeout(() => {
-        navigate("/dashboard");        // Change route as needed
+        navigate("/");        
       }, 1500);
     }
   }, [successMsg, navigate]);
@@ -89,7 +89,7 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             <input
               name="name"
-              placeholder="Username"
+              placeholder="Your Name"
               onChange={handleChange}
               className="w-full p-3 rounded-xl border focus:ring-2 focus:ring-green-400 outline-none"
             />

@@ -1,7 +1,7 @@
 import styles from "./auth.module.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "./authSlice.js";   // adjust path
+import { registerUser } from "./authSlice.js";   
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -35,7 +35,7 @@ const Register = () => {
   useEffect(() => {
     if (successMsg) {
       setTimeout(() => {
-        navigate("/login");        // Redirect to login after success - change as needed
+        navigate("/");        
       }, 1500);
     }
   }, [successMsg, navigate]);
