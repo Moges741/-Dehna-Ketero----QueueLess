@@ -6,6 +6,7 @@ import Login from './features/auth/Login.jsx'
 import Register from './features/auth/Register.jsx'
 import CreateTicket from './features/ticket/CreateTicket.jsx'
 import Offices from './features/office/Offices.jsx'
+import Services from './features/service/Services.jsx'
 
 const Landing = () => {
   return (
@@ -15,6 +16,7 @@ const Landing = () => {
         <Route path="/" element={<Hero/>} />
         <Route path="/create-ticket" element={<CreateTicket/>} />
         <Route path="offices" element={<Offices/>} />
+        <Route path='/services' element={<Services/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path='/register' element={<Register/>}/>
       </Routes>

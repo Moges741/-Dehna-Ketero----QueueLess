@@ -13,7 +13,7 @@ const NavBar = () => {
         <div className="hidden md:flex gap-10 font-medium text-sm">
             <a href="#how" className="hover:text-green-500 transition">How It Works</a>
             <Link to="/offices" className="hover:text-green-500 transition">Offices</Link>
-            <a href="#services" className="hover:text-green-500 transition">Services</a>
+            <Link to="/services" className="hover:text-green-500 transition">Services</Link>
         </div>
         <div className="flex gap-3 items-center">
           <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">Login</Link>
