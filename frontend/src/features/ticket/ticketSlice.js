@@ -33,3 +33,12 @@ export const getMyTickets = createAsyncThunk(
     }
   }
 );
+const initialState = {
+  tickets: [],
+  offices: [],
+  services: [],
+  currentTicket: null,
+  isLoading: false,
+  error: null,
+  successMsg: null,
+};
