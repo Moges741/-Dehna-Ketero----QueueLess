@@ -42,3 +42,47 @@ const initialState = {
   error: null,
   successMsg: null,
 };
+
+const ticketSlice = createSlice({
+  name: "ticket",
+  initialState,
+  reducers: {
+    clearTicketMessages: (state) => {
+      state.error = null;
+      state.successMsg = null;
+    },
+    resetCurrentTicket: (state) => {
+      state.currentTicket = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createTicket.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(createTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentTicket = action.payload;
+        state.successMsg = `Ticket #${action.payload.ticketNumber} created successfully!`;
+        state.tickets.unshift({
+            id: action.payload.ticketId,
+            ticket_number: action.payload.ticketNumber,
+            status: "Waiting",
+            queue_date: new Date().toISOString().split("T")[0],
+            created_at: new Date().toISOString(),
+        });
+        })
+        .addCase(createTicket.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        })
+        // get my tickets
+        .addCase(getMyTickets.fulfilled, (state, action) => {
+          state.tickets = action.payload;
+        })
+    },
+});
+
+export const { clearTicketMessages, resetCurrentTicket } = ticketSlice.actions;
+export default ticketSlice.reducer;
