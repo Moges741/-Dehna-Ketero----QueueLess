@@ -6,7 +6,7 @@ import {
   updateOffice, 
   toggleOfficeStatus,
   clearOfficeMessages 
-} from "../features/office/officeSlice";
+} from "./officeSlice.js";
 import { Building2, MapPin, Phone, Edit3, Power, Plus, Search } from "lucide-react";
 
 const Offices = () => {
@@ -69,7 +69,7 @@ const Offices = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
+    <div className="mt-20 min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
