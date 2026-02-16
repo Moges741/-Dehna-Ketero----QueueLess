@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from "./hero.module.css";
+import { Link } from 'react-router-dom';
 
 
 const Hero = () => {
@@ -18,7 +19,7 @@ const Hero = () => {
     {/* CTA Buttons */}
     <div className="mt-8 flex gap-4">
            <button className="px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition shadow-lg">
-              Get Ticket
+              <Link to="/create-ticket">Get Ticket</Link>
             </button>
 
             <button className="px-8 py-4 bg-white/20 backdrop-blur-md text-white rounded-xl font-semibold hover:bg-white/30 transition">
