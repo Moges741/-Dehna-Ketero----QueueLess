@@ -1,17 +1,8 @@
 import db from "../config/db.js";
 import { StatusCodes } from "http-status-codes";
 
-/* =======  Basic XSS Protection Helper =======
-*/
-import xss from 'xss'
-// const sanitizeInput = (value) =>{
-//     if(!value) return value;
-//     return value
-//     .replace(/</g, "")
-//     .replace(/>/g, "")
-//     .replace(/script/g, "" );
-// };
 
+import xss from 'xss'
 // check if user is admin or manager
 const isAdminOrManager = (role) => {
     return role === "admin" || role === "manager";
