@@ -1,4 +1,4 @@
-import dbConnection from "../config/db";
+import db from "../config/db.js";
 import { StatusCodes } from "http-status-codes";
 
 /* =======  Basic XSS Protection Helper =======
@@ -37,7 +37,7 @@ export const createService = async (req, res) =>{
       (office_id, name, description, avg_duration_minutes)
       VALUES (?, ?, ?, ?)`;
 
-      dbConnection.query(
+      db.query(
         sql, [office_id, name, description, avg_duration_minutes || 10], (err, result) => {
             if(err){
             console.error(err);
@@ -68,7 +68,7 @@ export const getAllServices = async (req, res) => {
     try {
            const sql = `SELECT * FROM services WHERE is_active = TRUE`;
 
-    dbConnection.query(sql, (err, results) => {
+    db.query(sql, (err, results) => {
       if (err) {
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -96,7 +96,7 @@ export const getServicesByOffice = async (req, res) => {
       SELECT * FROM services
       WHERE office_id = ? AND is_active = TRUE
     `;
- dbConnection.query(sql, [office_id], (err, results) => {
+ db.query(sql, [office_id], (err, results) => {
       if (err) {
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -122,7 +122,7 @@ export const getSingleService = async (req, res) => {
     try {
         const {serviceId} = req.params;
         const sql = `SELECT * FROM services WHERE id = ?`;
-        dbConnection.query(sql, [serviceId], (err, results) => {
+        db.query(sql, [serviceId], (err, results) => {
       if (err) {
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -169,7 +169,7 @@ export const updateService = async (req, res) => {
       SET name = ?, description = ?, avg_duration_minutes = ?
       WHERE id = ?
     `;
-dbConnection.query(
+db.query(
       sql,
       [name, description, avg_duration_minutes, serviceId],
       (err) => {

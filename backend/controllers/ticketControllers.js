@@ -1,4 +1,4 @@
-import dbConnection from "../config/db";
+import dbConnection from "../config/db.js";
 import { StatusCodes } from "http-status-codes";
 
 
