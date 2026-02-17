@@ -124,12 +124,17 @@ export const getEstimatedTime = createAsyncThunk(
 );
 const initialState = {
   myTickets: [],
-  queues: {}, // { serviceId: [tickets] }
+  queues: {}, 
   currentQueue: [],
   currentServiceId: null,
   isLoading: false,
   error: null,
   successMsg: null,
+  // Queue-specific
+  currentQueueStatus: null,
+  waitingCount: 0,
+  estimatedTime: 0,
+  lastCalledTicket: null,
 };
 
 const ticketSlice = createSlice({
@@ -177,7 +182,27 @@ const ticketSlice = createSlice({
           const idx = queue.findIndex(t => t.id === action.payload.ticketId);
           if (idx !== -1) queue[idx].status = action.payload.status;
         }
-      });
+      }) // Queue Status
+      .addCase(getQueueStatus.fulfilled, (state, action) => {
+    state.currentQueueStatus = action.payload.status;
+  })
+  // Call Next
+  .addCase(callNextTicket.fulfilled, (state, action) => {
+    state.successMsg = action.payload.msg;
+    state.lastCalledTicket = action.payload.ticketNumber;
+    // Remove called ticket from queue
+    const queue = state.queues[state.currentServiceId];
+    if (queue) {
+      state.queues[state.currentServiceId] = queue.filter(t => t.id !== action.payload.ticketId);
+      state.currentQueue = state.queues[state.currentServiceId];
+    }
+  })
+  .addCase(getWaitingCount.fulfilled, (state, action) => {
+    state.waitingCount = action.payload.count;
+  })
+  .addCase(getEstimatedTime.fulfilled, (state, action) => {
+    state.estimatedTime = action.payload.estimated;
+  });
   },
 });
 
