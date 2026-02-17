@@ -24,13 +24,12 @@ const Offices = () => {
     phone: "",
   });
 
-  // Fetch offices
   useEffect(() => {
     dispatch(getAllOffices());
     return () => dispatch(clearOfficeMessages());
   }, [dispatch]);
 
-  // Refetch after mutations
+
   useEffect(() => {
     if (successMsg) {
       dispatch(getAllOffices());
@@ -71,7 +70,6 @@ const Offices = () => {
   return (
     <div className="mt-20 min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <div>
             <h1 className="text-5xl font-semibold tracking-tighter text-zinc-900">Offices</h1>
@@ -87,7 +85,6 @@ const Offices = () => {
           </button>
         </div>
 
-        {/* Search */}
         <div className="relative mb-10">
           <Search className="absolute left-6 top-4 w-6 h-6 text-zinc-400" />
           <input
@@ -99,7 +96,6 @@ const Offices = () => {
           />
         </div>
 
-        {/* Offices Grid */}
         {isLoading ? (
           <div className="flex justify-center py-20">
             <div className="w-10 h-10 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" />
@@ -177,11 +173,9 @@ const Offices = () => {
         {error && <div className="mt-8 text-red-600 bg-red-50 p-4 rounded-2xl text-center">{error}</div>}
       </div>
 
-      {/* Apple-style Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xl">
           <div className="bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border border-white">
-            {/* Header */}
             <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-10 text-white">
               <h2 className="text-3xl font-semibold tracking-tight">
                 {editingOffice ? "Edit Office" : "New Office"}

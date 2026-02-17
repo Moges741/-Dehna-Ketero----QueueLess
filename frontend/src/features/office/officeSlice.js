@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/office";
 
-// Thunks
+
 export const getAllOffices = createAsyncThunk(
   "office/getAll",
   async (_, { getState, rejectWithValue }) => {
@@ -12,7 +12,7 @@ export const getAllOffices = createAsyncThunk(
       const res = await axios.get(API_URL, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return res.data.offices || res.data; // backend returns {offices: [...]}
+      return res.data.offices || res.data; 
     } catch (err) {
       return rejectWithValue(err.response?.data?.msg || "Failed to load offices");
     }

@@ -3,7 +3,6 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/service";
 
-// Thunks
 export const getAllServices = createAsyncThunk(
   "service/getAll",
   async (_, { getState, rejectWithValue }) => {
@@ -12,7 +11,7 @@ export const getAllServices = createAsyncThunk(
       const res = await axios.get(API_URL, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return res.data; // backend returns array
+      return res.data; 
     } catch (err) {
       return rejectWithValue(err.response?.data?.msg || "Failed to load services");
     }
