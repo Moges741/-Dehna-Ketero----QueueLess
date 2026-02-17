@@ -17,6 +17,7 @@ const Landing = () => {
         <Route path="/create-ticket" element={<TicketQueue/>} />
         <Route path="offices" element={<Offices/>} />
         <Route path='/services' element={<Services/>}/>
+        <Route path='/queue' element={<TicketQueue/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path='/register' element={<Register/>}/>
       </Routes>

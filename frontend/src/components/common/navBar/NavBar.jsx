@@ -14,6 +14,7 @@ const NavBar = () => {
             <a href="#how" className="hover:text-green-500 transition">How It Works</a>
             <Link to="/offices" className="hover:text-green-500 transition">Offices</Link>
             <Link to="/services" className="hover:text-green-500 transition">Services</Link>
+            <Link to="/queue" className="hover:text-green-500 transition">Live Queue</Link>
         </div>
         <div className="flex gap-3 items-center">
           <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">Login</Link>
