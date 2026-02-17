@@ -1,24 +1,24 @@
-import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const API_URL = "http://localhost:5000/api/tickets";
 
+const API_URL = "http://localhost:5000/api/ticket";
 
+// Thunks
 export const createTicket = createAsyncThunk(
   "ticket/create",
-  async (data, {getState, isRejectedWithValue}) =>{
+  async (data, { getState, rejectWithValue }) => {
     const token = getState().auth.token;
-    try{
-        const res = await axios.post(API_URL, data, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return res.data;
-    } catch (error) {
-        return isRejectedWithValue(error.response.data.message || "Ticket creation failed");
+    try {
+      const res = await axios.post(API_URL, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to create ticket");
     }
   }
 );
+
 export const getMyTickets = createAsyncThunk(
   "ticket/getMyTickets",
   async (_, { getState, rejectWithValue }) => {
@@ -29,15 +29,46 @@ export const getMyTickets = createAsyncThunk(
       });
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.msg || "Failed to load tickets");
+      return rejectWithValue(err.response?.data?.msg || "Failed to load your tickets");
     }
   }
 );
+
+export const getTicketsByService = createAsyncThunk(
+  "ticket/getByService",
+  async (serviceId, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      const res = await axios.get(`${API_URL}/service/${serviceId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { serviceId, tickets: res.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to load queue");
+    }
+  }
+);
+
+export const updateTicketStatus = createAsyncThunk(
+  "ticket/updateStatus",
+  async ({ ticketId, status }, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      await axios.patch(`${API_URL}/${ticketId}/status`, { status }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { ticketId, status };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to update ticket");
+    }
+  }
+);
+
 const initialState = {
-  tickets: [],
-  offices: [],
-  services: [],
-  currentTicket: null,
+  myTickets: [],
+  queues: {}, // { serviceId: [tickets] }
+  currentQueue: [],
+  currentServiceId: null,
   isLoading: false,
   error: null,
   successMsg: null,
@@ -51,38 +82,46 @@ const ticketSlice = createSlice({
       state.error = null;
       state.successMsg = null;
     },
-    resetCurrentTicket: (state) => {
-      state.currentTicket = null;
+    setCurrentService: (state, action) => {
+      state.currentServiceId = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createTicket.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
+      // Create
       .addCase(createTicket.fulfilled, (state, action) => {
+        state.successMsg = `Ticket #${action.payload.ticketNumber} created!`;
+      })
+
+      // My Tickets
+      .addCase(getMyTickets.fulfilled, (state, action) => {
+        state.myTickets = action.payload;
+      })
+
+      // Queue by Service
+      .addCase(getTicketsByService.pending, (state) => { state.isLoading = true; })
+      .addCase(getTicketsByService.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.currentTicket = action.payload;
-        state.successMsg = `Ticket #${action.payload.ticketNumber} created successfully!`;
-        state.tickets.unshift({
-            id: action.payload.ticketId,
-            ticket_number: action.payload.ticketNumber,
-            status: "Waiting",
-            queue_date: new Date().toISOString().split("T")[0],
-            created_at: new Date().toISOString(),
-        });
-        })
-        .addCase(createTicket.rejected, (state, action) => {
-          state.isLoading = false;
-          state.error = action.payload;
-        })
-        // get my tickets
-        .addCase(getMyTickets.fulfilled, (state, action) => {
-          state.tickets = action.payload;
-        })
-    },
+        state.queues[action.payload.serviceId] = action.payload.tickets;
+        state.currentQueue = action.payload.tickets;
+      })
+      .addCase(getTicketsByService.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // Update Status
+      .addCase(updateTicketStatus.fulfilled, (state, action) => {
+        state.successMsg = "Ticket updated";
+        // Optimistic update
+        const queue = state.queues[state.currentServiceId];
+        if (queue) {
+          const idx = queue.findIndex(t => t.id === action.payload.ticketId);
+          if (idx !== -1) queue[idx].status = action.payload.status;
+        }
+      });
+  },
 });
 
-export const { clearTicketMessages, resetCurrentTicket } = ticketSlice.actions;
+export const { clearTicketMessages, setCurrentService } = ticketSlice.actions;
 export default ticketSlice.reducer;

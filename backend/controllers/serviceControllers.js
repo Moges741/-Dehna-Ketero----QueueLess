@@ -3,18 +3,17 @@ import { StatusCodes } from "http-status-codes";
 
 
 import xss from 'xss'
-// check if user is admin or manager
-const isAdminOrManager = (role) => {
-    return role === "admin" || role === "manager";
-}
+// const isAdminOrManager = (role) => {
+//     return role === "admin" || role === "manager";
+// } Uncomment Later when we have roles implemented
 
 export const createService = async (req, res) =>{
     try{
-        if(!isAdminOrManager(req.user.role)){
-            return res
-            .status(StatusCodes.FORBIDDEN)
-            .json({msg: "Not authorized"});
-        }
+        // if(!isAdminOrManager(req.user.role)){
+        //     return res
+        //     .status(StatusCodes.FORBIDDEN)
+        //     .json({msg: "Not authorized"});
+        // }
     let { office_id, name, description, avg_duration_minutes } = req.body;
     name = xss(name);
     description = xss(description);
@@ -144,11 +143,11 @@ export const getSingleService = async (req, res) => {
 ===================================================== */
 export const updateService = async (req, res) => {
     try {
-       if (!isAdminOrManager(req.user.role)) {
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .json({ msg: "Not authorized" });
-    }
+    //    if (!isAdminOrManager(req.user.role)) {
+    //   return res
+    //     .status(StatusCodes.FORBIDDEN)
+    //     .json({ msg: "Not authorized" });
+    // }
     const { serviceId } = req.params;
     let { name, description, avg_duration_minutes } = req.body;
 
@@ -186,11 +185,11 @@ db.query(
 
 export const updateServiceStatus = async (req, res) => {
   try {
-    if (!isAdminOrManager(req.user.role)) {
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .json({ msg: "Not authorized" });
-    }
+    // if (!isAdminOrManager(req.user.role)) {
+    //   return res
+    //     .status(StatusCodes.FORBIDDEN)
+    //     .json({ msg: "Not authorized" });
+    // }
 
     const { serviceId } = req.params;
     const { is_active } = req.body;

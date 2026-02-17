@@ -6,8 +6,8 @@ import {
   updateService, 
   toggleServiceStatus,
   clearServiceMessages 
-} from "../features/service/serviceSlice";
-import { getAllOffices } from "../features/office/officeSlice"; // ← we reuse offices
+} from "./serviceSlice.js";
+import { getAllOffices } from "../office/officeSlice.js";
 import { Scissors, Clock, Building2, Edit3, Power, Plus, Search } from "lucide-react";
 
 const Services = () => {
@@ -27,7 +27,7 @@ const Services = () => {
     avg_duration_minutes: 10,
   });
 
-  // Fetch both offices + services
+
   useEffect(() => {
     dispatch(getAllOffices());
     dispatch(getAllServices());
@@ -85,7 +85,7 @@ const Services = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
+    <div className="mt-20 min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
