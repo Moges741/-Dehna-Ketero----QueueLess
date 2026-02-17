@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/ticket";
+const QUEUE_API = "http://localhost:5000/api/queue";
 
-// Thunks
 export const createTicket = createAsyncThunk(
   "ticket/create",
   async (data, { getState, rejectWithValue }) => {
@@ -60,6 +60,21 @@ export const updateTicketStatus = createAsyncThunk(
       return { ticketId, status };
     } catch (err) {
       return rejectWithValue(err.response?.data?.msg || "Failed to update ticket");
+    }
+  }
+);
+//QUEUE RELATED THUNKS
+export const getQueueStatus = createAsyncThunk(
+  "ticket/getQueueStatus",
+  async (serviceId, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      const res = await axios.get(`${QUEUE_API}/status/${serviceId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { serviceId, status: res.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to load queue status");
     }
   }
 );
