@@ -8,7 +8,7 @@ import {
   clearServiceMessages 
 } from "./serviceSlice.js";
 import { getAllOffices } from "../office/officeSlice.js";
-import { Scissors, Clock, Building2, Edit3, Power, Plus, Search } from "lucide-react";
+import {  Clock, Building2, Edit3, Power, Plus, Search } from "lucide-react";
 
 const Services = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const Services = () => {
     return () => dispatch(clearServiceMessages());
   }, [dispatch]);
 
-  // Refetch after success
+
   useEffect(() => {
     if (successMsg) {
       dispatch(getAllServices());
@@ -87,7 +87,6 @@ const Services = () => {
   return (
     <div className="mt-20 min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <div>
             <h1 className="text-5xl font-semibold tracking-tighter text-zinc-900">Services</h1>
@@ -103,7 +102,6 @@ const Services = () => {
           </button>
         </div>
 
-        {/* Search */}
         <div className="relative mb-10">
           <Search className="absolute left-6 top-4 w-6 h-6 text-zinc-400" />
           <input
@@ -114,8 +112,6 @@ const Services = () => {
             className="w-full bg-white border border-zinc-200 rounded-3xl pl-16 py-4 text-lg focus:outline-none focus:border-emerald-500 transition"
           />
         </div>
-
-        {/* Services Grid */}
         {isLoading ? (
           <div className="flex justify-center py-20">
             <div className="w-10 h-10 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" />
@@ -191,7 +187,6 @@ const Services = () => {
         {error && <div className="mt-8 text-red-600 bg-red-50 p-4 rounded-2xl text-center">{error}</div>}
       </div>
 
-      {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xl">
           <div className="bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border border-white">
@@ -203,7 +198,6 @@ const Services = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="p-10 space-y-8">
-              {/* Office Select */}
               <div>
                 <label className="block text-sm font-medium text-zinc-600 mb-2">Office</label>
                 <select
