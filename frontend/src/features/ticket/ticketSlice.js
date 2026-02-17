@@ -78,7 +78,50 @@ export const getQueueStatus = createAsyncThunk(
     }
   }
 );
-
+export const callNextTicket = createAsyncThunk(
+  "ticket/callNext",
+  async ({ serviceId, officeId }, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      const res = await axios.post(
+        `${QUEUE_API}/call-next`,
+        { service_id: serviceId, office_id: officeId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to call next ticket");
+    }
+  }
+);
+export const getWaitingCount = createAsyncThunk(
+  "ticket/getWaitingCount",
+  async (serviceId, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      const res = await axios.get(`${QUEUE_API}/waiting-count/${serviceId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { serviceId, count: res.data.waiting };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to load waiting count");
+    }
+  }
+);
+export const getEstimatedTime = createAsyncThunk(
+  "ticket/getEstimatedTime",
+  async (serviceId, { getState, rejectWithValue }) => {
+    const token = getState().auth.token;
+    try {
+      const res = await axios.get(`${QUEUE_API}/estimate/${serviceId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return { serviceId, estimated: res.data.estimated_minutes };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.msg || "Failed to load estimate");
+    }
+  }
+);
 const initialState = {
   myTickets: [],
   queues: {}, // { serviceId: [tickets] }
