@@ -7,8 +7,6 @@ import styles from "./navbar.module.css";
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-
   const { user, token } = useSelector((state) => state.auth);
 
   const displayName = user?.name || localStorage.getItem("userName") || "Guest";
@@ -42,7 +40,7 @@ const NavBar = () => {
         </div>
 
         <div className="hidden md:flex gap-10 font-medium text-sm">
-          <a href="#how" className="hover:text-green-500 transition">How It Works</a>
+          <Link to="/how-it-works" className="hover:text-green-500 transition">How It Works</Link>
           <Link to="/offices" className="hover:text-green-500 transition">Offices</Link>
           <Link to="/services" className="hover:text-green-500 transition">Services</Link>
           <Link to="/queue" className="hover:text-green-500 transition">Live Queue</Link>
@@ -78,12 +76,6 @@ const NavBar = () => {
                   className="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 transition"
                 >
                   Dashboard
-                </Link>
-                <Link
-                  to="/profile" 
-                  className="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 transition"
-                >
-                  Profile
                 </Link>
                 <button
                   onClick={handleLogout}

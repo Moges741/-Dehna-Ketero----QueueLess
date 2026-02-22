@@ -8,6 +8,7 @@ import Offices from './features/office/Offices.jsx'
 import Services from './features/service/Services.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Home from './components/common/Home/Home.jsx'
+import HowItWorks from './components/common/HowItWorks/HowItWorks.jsx'
 
 const Landing = () => {
   return (
@@ -22,6 +23,7 @@ const Landing = () => {
         <Route path="/login" element={<Login/>} />
         <Route path='/register' element={<Register/>}/>
         <Route path='/dashboard' element={<Dashboard  />}/>
+        <Route path='/how-it-works' element={<HowItWorks/>}/>
       </Routes>
       
     </div>
