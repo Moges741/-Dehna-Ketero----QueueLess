@@ -7,20 +7,18 @@ import styles from "./navbar.module.css";
 const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
 
   const { user, token } = useSelector((state) => state.auth);
 
   const displayName = user?.name || localStorage.getItem("userName") || "Guest";
   const firstName = displayName.split(" ")[0];
-
   const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase()
     .slice(0, 2);
-
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");

@@ -1,20 +1,20 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import NavBar from './components/common/navBar/NavBar'
-import Hero from './components/landing/Hero.jsx'
 import Login from './features/auth/Login.jsx'
 import Register from './features/auth/Register.jsx'
 import TicketQueue from './features/ticket/TicketQueue.jsx'
 import Offices from './features/office/Offices.jsx'
 import Services from './features/service/Services.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Home from './components/common/Home/Home.jsx'
 
 const Landing = () => {
   return (
     <div>
       <NavBar/>
       <Routes>
-        <Route path="/" element={<Hero/>} />
+        <Route path="/" element={<Home/>} />
         <Route path="/create-ticket" element={<TicketQueue/>} />
         <Route path="offices" element={<Offices/>} />
         <Route path='/services' element={<Services/>}/>
@@ -23,6 +23,7 @@ const Landing = () => {
         <Route path='/register' element={<Register/>}/>
         <Route path='/dashboard' element={<Dashboard  />}/>
       </Routes>
+      
     </div>
   )
 }
