@@ -19,6 +19,7 @@ const NavBar = () => {
         <div className="flex gap-3 items-center">
           <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">Login</Link>
           <Link to="/register" className="px-5 py-2 rounded-xl bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition shadow">Register</Link>
+          <Link to="/dashboard" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">Dashboard</Link>
         </div>
     </div>
   </nav>

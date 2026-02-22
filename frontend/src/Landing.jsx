@@ -7,6 +7,7 @@ import Register from './features/auth/Register.jsx'
 import TicketQueue from './features/ticket/TicketQueue.jsx'
 import Offices from './features/office/Offices.jsx'
 import Services from './features/service/Services.jsx'
+import Dashboard from './pages/Dashboard.jsx'
 
 const Landing = () => {
   return (
@@ -20,6 +21,7 @@ const Landing = () => {
         <Route path='/queue' element={<TicketQueue/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path='/register' element={<Register/>}/>
+        <Route path='/dashboard' element={<Dashboard  />}/>
       </Routes>
     </div>
   )

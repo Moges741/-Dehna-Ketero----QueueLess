@@ -7,7 +7,7 @@ import {
   setCurrentService 
 } from "./ticketSlice.js";
 import { getAllServices } from "../service/serviceSlice.js";
-import { Ticket, User, Clock, CheckCircle2, XCircle, RefreshCw, PhoneCall } from "lucide-react";
+import { Ticket, User, Clock, CheckCircle2, RefreshCw, PhoneCall } from "lucide-react";
 
 const TicketQueue = () => {
   const dispatch = useDispatch();
