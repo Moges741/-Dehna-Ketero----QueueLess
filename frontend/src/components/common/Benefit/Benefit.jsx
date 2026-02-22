@@ -124,21 +124,6 @@ const Benefits = () => {
           })}
         </div>
       </div>
-
-      <div className="max-w-4xl mx-auto px-6 mt-20 text-center">
-        <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-3xl p-12 text-white shadow-2xl">
-          <h2 className="text-4xl font-bold mb-6">Ready to Skip the Line?</h2>
-          <p className="text-xl mb-10 opacity-90">
-            Join thousands who already save hours every week with QueueLess.
-          </p>
-          <a
-            href="/register"
-            className="inline-block bg-white text-green-700 px-12 py-5 rounded-2xl text-xl font-semibold hover:bg-gray-100 transition transform hover:scale-105 shadow-lg"
-          >
-            Get Started Free
-          </a>
-        </div>
-      </div>
     </div>
   );
 };
