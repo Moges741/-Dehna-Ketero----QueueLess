@@ -18,7 +18,8 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:5173', 
-    'https://queueless-qyxg.onrender.com'
+    'https://queueless-qyxg.onrender.com',
+    'https://queueless-ethio.vercel.app/'
   ],
   credentials: true,
 }));
