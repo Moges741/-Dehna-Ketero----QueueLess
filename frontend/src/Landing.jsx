@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard.jsx'
 import Home from './components/common/Home/Home.jsx'
 import HowItWorks from './components/common/HowItWorks/HowItWorks.jsx'
 import QueueManagement from './features/queue/QueueManagement.jsx'
+import Footer from './components/common/Footer/Footer.jsx'
+import Terms from './components/common/Terms/Terms.jsx'
 
 const Landing = () => {
   return (
@@ -25,7 +27,9 @@ const Landing = () => {
         <Route path='/register' element={<Register/>}/>
         <Route path='/dashboard' element={<Dashboard  />}/>
         <Route path='/how-it-works' element={<HowItWorks/>}/>
+        <Route path='/terms' element={<Terms/>}/>
       </Routes>
+      <Footer/>
       
     </div>
   )
