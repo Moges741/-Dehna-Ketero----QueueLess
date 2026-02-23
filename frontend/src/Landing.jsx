@@ -12,6 +12,7 @@ import HowItWorks from './components/common/HowItWorks/HowItWorks.jsx'
 import QueueManagement from './features/queue/QueueManagement.jsx'
 import Footer from './components/common/Footer/Footer.jsx'
 import Terms from './components/common/Terms/Terms.jsx'
+import Privacy from './components/common/policy/Policy.jsx'
 
 const Landing = () => {
   return (
@@ -28,6 +29,7 @@ const Landing = () => {
         <Route path='/dashboard' element={<Dashboard  />}/>
         <Route path='/how-it-works' element={<HowItWorks/>}/>
         <Route path='/terms' element={<Terms/>}/>
+        <Route path='/privacy' element={<Privacy/>}/>
       </Routes>
       <Footer/>
       
