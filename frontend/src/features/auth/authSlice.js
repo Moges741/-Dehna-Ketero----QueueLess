@@ -74,9 +74,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.successMsg = "Account created successfully! You can now log in.";
-      })
+  state.isLoading = false;
+  state.user = action.payload.user;
+  state.token = action.payload.token;
+  localStorage.setItem("token", action.payload.token);
+  state.successMsg = "Account created! Logging you in...";
+})
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;

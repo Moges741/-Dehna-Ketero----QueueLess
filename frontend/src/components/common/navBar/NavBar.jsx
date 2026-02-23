@@ -72,56 +72,57 @@ const NavBar = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-3">
-          
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-800 focus:outline-none"
-          >
-            ☰
-          </button>
+       {/* Right Section */}
+<div className="flex items-center gap-3">
+  
+  {/* Mobile Toggle */}
+  <button
+    onClick={() => setIsOpen(!isOpen)}
+    className="md:hidden text-gray-800 focus:outline-none"
+  >
+    ☰
+  </button>
 
-          {!token ? (
-            <>
-              <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="px-5 py-2 rounded-xl bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition shadow"
-              >
-                Register
-              </Link>
-            </>
-          ) : (
-            <div className="relative group">
-              <button className="flex items-center gap-3 focus:outline-none">
-                <div className="w-9 h-9 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-sm shadow">
-                  {initials}
-                </div>
-                <span className="text-sm font-medium text-gray-800 hidden sm:block">
-                  Hi, {firstName}
-                </span>
-              </button>
-
-              <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl py-2 z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200 border border-gray-100">
-                <Link
-                  to="/dashboard"
-                  className="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 transition"
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-5 py-3 text-sm text-red-600 hover:bg-red-50 transition"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
+  {!user ? (  // <-- check for user object, not token
+    <>
+      <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">
+        Login
+      </Link>
+      <Link
+        to="/register"
+        className="px-5 py-2 rounded-xl bg-green-500 text-white text-sm font-medium hover:bg-green-600 transition shadow"
+      >
+        Register
+      </Link>
+    </>
+  ) : (
+    <div className="relative group">
+      <button className="flex items-center gap-3 focus:outline-none">
+        <div className="w-9 h-9 rounded-full bg-green-600 text-white flex items-center justify-center font-semibold text-sm shadow">
+          {initials}
         </div>
+        <span className="text-sm font-medium text-gray-800 hidden sm:block">
+          Hi, {firstName}
+        </span>
+      </button>
+
+      <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl py-2 z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200 border border-gray-100">
+        <Link
+          to="/dashboard"
+          className="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-50 transition"
+        >
+          Dashboard
+        </Link>
+        <button
+          onClick={handleLogout}
+          className="w-full text-left px-5 py-3 text-sm text-red-600 hover:bg-red-50 transition"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  )}
+</div>
       </div>
 
       {/* Mobile Menu */}

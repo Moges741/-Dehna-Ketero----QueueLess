@@ -63,9 +63,21 @@ export const registerUser = async (req, res) => {
               .json({ msg: "Failed to create user" });
           }
 
-          return res.status(StatusCodes.CREATED).json({
-            msg: "User registered successfully",
-          });
+return res.status(StatusCodes.CREATED).json({
+  msg: "User registered successfully",
+  user: {
+    id: insertResult.insertId,
+    name,
+    email,
+    phone,
+    role: role || "user"
+  },
+  token: jwt.sign(
+    { userId: insertResult.insertId, phone, role: role || "user" },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  )
+});
         }
       );
     });
