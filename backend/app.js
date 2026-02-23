@@ -13,6 +13,7 @@ import dbConnection from './config/db.js';
 const app = express();
 app.use(cors({
   origin: 'http://localhost:5173',   
+  origin: 'https://queueless-qyxg.onrender.com/',
   credentials: true,
 }));
 // Test DB Connection
