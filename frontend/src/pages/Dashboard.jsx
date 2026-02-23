@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   const role = user?.role || "user";
 
-  // Fetch data on mount
+
   useEffect(() => {
     if (!token) {
       navigate("/login");
@@ -29,7 +29,7 @@ const Dashboard = () => {
     dispatch(getAllServices());
     dispatch(getAllOffices());
 
-    // Optional: clear old messages
+
     dispatch(clearMessages());
   }, [dispatch, token, navigate]);
 
@@ -38,12 +38,10 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  // Simple stats (you can expand later with real DB queries)
   const activeOffices = offices.filter(o => o.is_active).length;
   const activeServices = services.filter(s => s.is_active).length;
   const waitingTickets = myTickets.filter(t => t.status === "waiting").length;
 
-  // Current ticket (most recent waiting or serving)
   const currentTicket = myTickets.find(t => ["waiting", "serving"].includes(t.status));
 
   if (isLoading || !user) {
@@ -57,7 +55,6 @@ const Dashboard = () => {
   return (
     <div className="mt-20 min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-12">
           <div>
             <h1 className="text-5xl font-semibold tracking-tighter text-zinc-900">
@@ -84,10 +81,8 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Role-based Content */}
         {role === "user" ? (
           <div className="space-y-12">
-            {/* Current Ticket Card */}
             <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-emerald-100">
               <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-10 text-white">
                 <h2 className="text-3xl font-semibold">Your Current Ticket</h2>
@@ -115,17 +110,16 @@ const Dashboard = () => {
                     <Ticket className="w-24 h-24 mx-auto text-zinc-300" />
                     <p className="text-2xl text-zinc-500 mt-6">No active ticket</p>
                     <button
-                      onClick={() => navigate("/create-ticket")} // adjust route
+                      onClick={() => navigate("/services")} 
                       className="mt-8 bg-emerald-600 text-white px-10 py-4 rounded-2xl font-semibold hover:bg-emerald-700 transition"
                     >
-                      Create New Ticket
+                      Create New Service
                     </button>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Ticket History */}
             <div className="bg-white rounded-3xl p-10 shadow-lg">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-2xl font-semibold">Your Tickets</h3>

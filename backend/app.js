@@ -46,7 +46,7 @@ app.use('/api/ticket',authMiddleware, ticketRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT} http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT} https://sql7.freesqldatabase.com:${PORT}`);
 });
 
 
