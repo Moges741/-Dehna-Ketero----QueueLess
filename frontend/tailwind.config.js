@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],     
-        heading: ['Inter', 'system-ui', 'sans-serif'],  
+        heading: ["Poppins", "sans-serif"],
       },
       fontWeight: {
         normal: 400,
