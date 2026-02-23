@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "../../../features/auth/authSlice";
@@ -9,7 +9,11 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { user, token } = useSelector((state) => state.auth);
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const displayName = user?.name || localStorage.getItem("userName") || "Guest";
+  const role = user?.role || localStorage.getItem("userRole");
+
   const firstName = displayName.split(" ")[0];
   const initials = displayName
     .split(" ")
@@ -17,36 +21,67 @@ const NavBar = () => {
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
+    localStorage.removeItem("userRole");
     navigate("/");
   };
 
   useEffect(() => {
     if (user?.name) {
       localStorage.setItem("userName", user.name);
+      localStorage.setItem("userRole", user.role);
     }
   }, [user]);
 
   return (
     <nav className={`w-full fixed top-0 left-0 z-50 ${styles.navGlass}`}>
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link to="/" className="text-2xl font-bold tracking-wide">
-            Queue<span className="text-green-500">Less</span>
-          </Link>
-        </div>
+        
+        {/* Logo */}
+        <Link to="/" className="text-2xl font-bold tracking-wide">
+          Queue<span className="text-green-500">Less</span>
+        </Link>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex gap-10 font-medium text-sm">
-          <Link to="/how-it-works" className="hover:text-green-500 transition">How It Works</Link>
-          <Link to="/offices" className="hover:text-green-500 transition">Offices</Link>
-          <Link to="/services" className="hover:text-green-500 transition">Services</Link>
-          <Link to="/queue" className="hover:text-green-500 transition">Live Queue</Link>
+          <Link to="/how-it-works" className="hover:text-green-500 transition">
+            How It Works
+          </Link>
+
+          {/* Admin Only Links */}
+          {role === "admin" && (
+            <>
+              <Link to="/offices" className="hover:text-green-500 transition">
+                Offices
+              </Link>
+              <Link to="/services" className="hover:text-green-500 transition">
+                Services
+              </Link>
+              <Link to="/queue" className="hover:text-green-500 transition">
+                Live Queue
+              </Link>
+              <Link to="/dashboard" className="hover:text-green-500 transition">
+                Dashboard
+              </Link>
+            </>
+          )}
         </div>
 
-        <div className="flex gap-3 items-center">
+        {/* Right Section */}
+        <div className="flex items-center gap-3">
+          
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-gray-800 focus:outline-none"
+          >
+            ☰
+          </button>
+
           {!token ? (
             <>
               <Link to="/login" className="px-4 py-2 text-sm font-medium hover:text-green-500 transition">
@@ -88,6 +123,32 @@ const NavBar = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-white shadow-md px-6 py-4 space-y-4">
+          <Link to="/how-it-works" className="block hover:text-green-500">
+            How It Works
+          </Link>
+
+          {role === "admin" && (
+            <>
+              <Link to="/offices" className="block hover:text-green-500">
+                Offices
+              </Link>
+              <Link to="/services" className="block hover:text-green-500">
+                Services
+              </Link>
+              <Link to="/queue" className="block hover:text-green-500">
+                Live Queue
+              </Link>
+              <Link to="/dashboard" className="block hover:text-green-500">
+                Dashboard
+              </Link>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

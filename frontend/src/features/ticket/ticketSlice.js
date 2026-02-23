@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/ticket";
-const QUEUE_API = "http://localhost:5000/api/queue";
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/ticket`;
+const QUEUE_API = `${import.meta.env.VITE_BACKEND_URL}/api/queue`;
 
 export const createTicket = createAsyncThunk(
   "ticket/create",

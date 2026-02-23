@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/office";
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/office`;
 
 
 export const getAllOffices = createAsyncThunk(

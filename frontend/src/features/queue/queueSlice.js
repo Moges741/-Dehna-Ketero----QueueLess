@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const QUEUE_API = "http://localhost:5000/api/queue";
+const QUEUE_API = `${import.meta.env.VITE_BACKEND_URL}/api/queue`;
 
 // Thunks
 export const getQueueStatus = createAsyncThunk(

@@ -15,7 +15,7 @@ const Register = () => {
     email: "",
     phone: "",
     password: "",
-    role: "admin",
+    role: "user",
   });
 
   const handleChange = (e) => {
