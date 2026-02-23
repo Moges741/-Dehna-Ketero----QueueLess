@@ -110,10 +110,10 @@ const Dashboard = () => {
                     <Ticket className="w-24 h-24 mx-auto text-zinc-300" />
                     <p className="text-2xl text-zinc-500 mt-6">No active ticket</p>
                     <button
-                      onClick={() => navigate("/services")} 
+                      onClick={() => navigate("/create-ticket")} 
                       className="mt-8 bg-emerald-600 text-white px-10 py-4 rounded-2xl font-semibold hover:bg-emerald-700 transition"
                     >
-                      Create New Service
+                      Get Your Ticket
                     </button>
                   </div>
                 )}

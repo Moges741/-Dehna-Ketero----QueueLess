@@ -102,7 +102,8 @@ const NavBar = () => {
                 <span className="text-sm font-medium text-gray-800 hidden sm:block">
                   Hi, {firstName}
                 </span>
-              </button> <div className="ml-2"><button onClick={handleLogout} className="text-red-600 hover:text-red-700 text-sm">Logout</button></div>
+                <div className="ml-2"><button onClick={handleLogout} className="text-red-600 hover:text-red-700 text-sm">Logout</button></div>
+              </button> 
 
              
             </div>
