@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Twitter, Facebook, Instagram, Linkedin, 
-  ArrowUp, Mail, Send, Heart 
+  ArrowUp, ArrowRight, Mail, Send, Heart 
 } from 'lucide-react';
 
 const Footer = () => {
@@ -70,28 +70,28 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* <div>
-            <h3 className="text-lg font-semibold text-white mb-6">Quick Links</h3>
-            <ul className="space-y-4">
-              {[
-                { to: "/how-it-works", label: "How It Works" },
-                { to: "/benefits", label: "Why QueueLess" },
-                { to: "/services", label: "Services & Partners" },
-                { to: "/dashboard", label: "Dashboard" },
-                { to: "/contact", label: "Contact Us" }
-              ].map((item) => (
-                <li key={item.to}>
-                  <Link
-                    to={item.to}
-                    className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2 group"
-                  >
-                    <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 -ml-6 group-hover:ml-0 transition-all" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div> */}
+<div>
+  <h3 className="text-lg font-semibold text-white mb-6">Quick Links</h3>
+  <ul className="space-y-4">
+    {[
+      { to: "/how-it-works", label: "How It Works" },
+      { to: "/dashboard", label: "Dashboard" },
+    ].map((item) => (
+      <li key={item.to}>
+        <Link
+          to={item.to}
+          className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2 group"
+        >
+          <ArrowRight 
+            size={16} 
+            className="opacity-0 group-hover:opacity-100 -ml-6 group-hover:ml-0 transition-all" 
+          />
+          {item.label}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
           <div>
             <h3 className="text-lg font-semibold text-white mb-6">For Everyone</h3>
@@ -101,11 +101,7 @@ const Footer = () => {
                   Create Ticket
                 </Link>
               </li>
-              <li>
-                <Link to="/queue" className="text-slate-300 hover:text-emerald-400 transition">
-                  Live Queue (Staff)
-                </Link>
-              </li>
+        
               <li>
                 <Link to="/dashboard" className="text-slate-300 hover:text-emerald-400 transition">
                   My Account

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { createTicket, clearTicketMessages } from "./ticketSlice.js";
 import { getAllOffices } from "../office/officeSlice.js";
 import { getAllServices } from "../service/serviceSlice.js"; 
@@ -9,9 +9,10 @@ import { Ticket, Building2, ListChecks, CheckCircle2 } from "lucide-react";
 const CreateTicket = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-const { offices } = useSelector((state) => state.office);
+
+  const { offices } = useSelector((state) => state.office);
   const { services } = useSelector((state) => state.service);
-  const {  isLoading, error, successMsg, currentTicket } = useSelector((state) => state.ticket);
+  const { isLoading, error, successMsg, currentTicket } = useSelector((state) => state.ticket);
   const { user } = useSelector((state) => state.auth);
 
   const [selectedOffice, setSelectedOffice] = useState("");
@@ -19,25 +20,23 @@ const { offices } = useSelector((state) => state.office);
 
   useEffect(() => {
     dispatch(getAllOffices());
-    dispatch(getAllServices()); 
+    dispatch(getAllServices());
     return () => dispatch(clearTicketMessages());
   }, [dispatch]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedOffice || !selectedService) return;
 
     dispatch(createTicket({
-      office_id: selectedOffice,
-      service_id: selectedService
+      office_id: Number(selectedOffice),     
+      service_id: Number(selectedService)
     }));
   };
 
   useEffect(() => {
     if (currentTicket && successMsg) {
-      const timer = setTimeout(() => {
-        navigate("/dashboard"); 
-      }, 2500);
-      return () => clearTimeout(timer);
+      navigate("/dashboard");
     }
   }, [currentTicket, successMsg, navigate]);
 
@@ -45,7 +44,6 @@ const { offices } = useSelector((state) => state.office);
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-2xl">
         <div className="bg-white/90 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 overflow-hidden">
-
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-12 text-white relative">
             <div className="absolute inset-0 bg-[radial-gradient(at_top_right,#ffffff20_0%,transparent_60%)]" />
             <div className="relative z-10 flex items-center gap-5">
@@ -54,7 +52,7 @@ const { offices } = useSelector((state) => state.office);
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Get Your Ticket</h1>
-                <p className="text-emerald-100 mt-2 text-lg">Skip the line  instantly.</p>
+                <p className="text-emerald-100 mt-2 text-lg">Skip the line — instantly.</p>
               </div>
             </div>
           </div>
@@ -72,12 +70,11 @@ const { offices } = useSelector((state) => state.office);
                   Your ticket is booked!
                 </p>
                 <p className="text-zinc-600 text-lg">
-                  Redirecting to your tickets...
+                  Redirecting to your dashboard...
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-10">
-             
                 <div>
                   <label className="flex items-center gap-3 text-lg font-medium text-zinc-700 mb-3">
                     <Building2 className="w-6 h-6 text-emerald-600" />
@@ -93,9 +90,9 @@ const { offices } = useSelector((state) => state.office);
                     required
                   >
                     <option value="">Select an office</option>
-                    {offices.map((office) => (
+                    {offices && Array.isArray(offices) && offices.map((office) => (
                       <option key={office.id} value={office.id}>
-                        {office.name} — {office.city}
+                        {office.name} — {office.city || "N/A"}
                       </option>
                     ))}
                   </select>
@@ -114,25 +111,24 @@ const { offices } = useSelector((state) => state.office);
                     required
                   >
                     <option value="">Select a service</option>
-                   {services && Array.isArray(services) && services.length > 0 ? (
-  services
-    .filter(s => !selectedOffice || s.office_id === Number(selectedOffice))
-    .map((service) => (
-      <option key={service.id} value={service.id}>
-        {service.name} {service.avg_duration_minutes && `(~${service.avg_duration_minutes} min)`}
-      </option>
-    ))
-) : (
-  <option value="" disabled>
-    {services ? "No services available" : "Loading services..."}
-  </option>
-)}
+                    {services && Array.isArray(services) && services.length > 0 ? (
+                      services
+                        .filter(s => !selectedOffice || s.office_id === Number(selectedOffice))
+                        .map((service) => (
+                          <option key={service.id} value={service.id}>
+                            {service.name} {service.avg_duration_minutes && `(~${service.avg_duration_minutes} min)`}
+                          </option>
+                        ))
+                    ) : (
+                      <option value="" disabled>
+                        {services ? "No services available" : "Loading services..."}
+                      </option>
+                    )}
                   </select>
                 </div>
 
-              
                 <button
-                  type="submit"
+                  type="submit"  
                   disabled={isLoading || !selectedOffice || !selectedService}
                   className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-xl py-6 rounded-2xl transition-all duration-300 active:scale-[0.98] shadow-xl shadow-emerald-500/30 flex items-center justify-center gap-4 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
@@ -145,7 +141,9 @@ const { offices } = useSelector((state) => state.office);
                       Creating Ticket...
                     </>
                   ) : (
-                    "Get My Ticket Now"
+                    <Link to="/dashboard" className="text-white no-underline">
+                      Get My Ticket Now
+                    </Link>
                   )}
                 </button>
 
