@@ -1,4 +1,3 @@
-// src/pages/QueueManagement.jsx
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { 
@@ -7,9 +6,9 @@ import {
   getWaitingCount, 
   getEstimatedTime,
   clearQueueMessages 
-} from "../features/queue/queueSlice";
-import { getAllServices } from "../features/service/serviceSlice";
-import { getTicketsByService } from "../features/ticket/ticketSlice"; // Reuse for waiting list
+} from "./queueSlice.js";
+import { getAllServices } from "../service/serviceSlice.js";
+import { getTicketsByService } from "../ticket/ticketSlice.js"; 
 import { Ticket, Users, Clock, PhoneCall, RefreshCw } from "lucide-react";
 
 const QueueManagement = () => {
@@ -17,7 +16,7 @@ const QueueManagement = () => {
 
   const { services } = useSelector((state) => state.service);
   const { currentStatus, waitingCount, estimatedMinutes, successMsg, error } = useSelector((state) => state.queue);
-  const { currentQueue } = useSelector((state) => state.ticket); // Waiting tickets
+  const { currentQueue } = useSelector((state) => state.ticket); 
 
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -66,7 +65,7 @@ const QueueManagement = () => {
   const nowServing = currentStatus?.current_ticket_number || 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
+    <div className="mt-20 min-h-screen bg-gradient-to-br from-zinc-50 to-emerald-50 p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-12">
           <div>

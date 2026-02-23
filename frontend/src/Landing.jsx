@@ -9,6 +9,7 @@ import Services from './features/service/Services.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Home from './components/common/Home/Home.jsx'
 import HowItWorks from './components/common/HowItWorks/HowItWorks.jsx'
+import QueueManagement from './features/queue/QueueManagement.jsx'
 
 const Landing = () => {
   return (
@@ -19,7 +20,7 @@ const Landing = () => {
         <Route path="/create-ticket" element={<TicketQueue/>} />
         <Route path="offices" element={<Offices/>} />
         <Route path='/services' element={<Services/>}/>
-        <Route path='/queue' element={<TicketQueue/>}/>
+        <Route path='/queue' element={<QueueManagement/>}/>
         <Route path="/login" element={<Login/>} />
         <Route path='/register' element={<Register/>}/>
         <Route path='/dashboard' element={<Dashboard  />}/>

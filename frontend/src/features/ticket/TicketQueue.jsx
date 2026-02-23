@@ -1,4 +1,4 @@
-// src/pages/CreateTicket.jsx
+
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,16 +18,11 @@ const { offices } = useSelector((state) => state.office);
   const [selectedOffice, setSelectedOffice] = useState("");
   const [selectedService, setSelectedService] = useState("");
 
-  // Fetch offices & services on mount
   useEffect(() => {
     dispatch(getAllOffices());
-    dispatch(getAllServices()); // or later filter by office
+    dispatch(getAllServices()); 
     return () => dispatch(clearTicketMessages());
   }, [dispatch]);
-
-  // Optional: filter services by selected office (if you implement getServicesByOffice endpoint)
-  //const availableServices = services.filter(s => !selectedOffice || s.office_id === selectedOffice);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedOffice || !selectedService) return;
@@ -38,11 +33,10 @@ const { offices } = useSelector((state) => state.office);
     }));
   };
 
-  // After ticket created → show success & redirect to my tickets
   useEffect(() => {
     if (currentTicket && successMsg) {
       const timer = setTimeout(() => {
-        navigate("/dashboard"); // or /my-tickets if you have it
+        navigate("/dashboard"); 
       }, 2500);
       return () => clearTimeout(timer);
     }
@@ -51,9 +45,8 @@ const { offices } = useSelector((state) => state.office);
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center p-6 pt-24">
       <div className="w-full max-w-2xl">
-        {/* Glass Card */}
         <div className="bg-white/90 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 overflow-hidden">
-          {/* Header */}
+
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-12 text-white relative">
             <div className="absolute inset-0 bg-[radial-gradient(at_top_right,#ffffff20_0%,transparent_60%)]" />
             <div className="relative z-10 flex items-center gap-5">
@@ -62,7 +55,7 @@ const { offices } = useSelector((state) => state.office);
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Get Your Ticket</h1>
-                <p className="text-emerald-100 mt-2 text-lg">Skip the line — instantly.</p>
+                <p className="text-emerald-100 mt-2 text-lg">Skip the line  instantly.</p>
               </div>
             </div>
           </div>
@@ -85,7 +78,7 @@ const { offices } = useSelector((state) => state.office);
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-10">
-                {/* Select Office */}
+             
                 <div>
                   <label className="flex items-center gap-3 text-lg font-medium text-zinc-700 mb-3">
                     <Building2 className="w-6 h-6 text-emerald-600" />
@@ -95,7 +88,7 @@ const { offices } = useSelector((state) => state.office);
                     value={selectedOffice}
                     onChange={(e) => {
                       setSelectedOffice(e.target.value);
-                      setSelectedService(""); // reset service when office changes
+                      setSelectedService(""); 
                     }}
                     className="w-full bg-white border border-zinc-200 rounded-2xl px-6 py-5 text-lg focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition"
                     required
@@ -109,7 +102,6 @@ const { offices } = useSelector((state) => state.office);
                   </select>
                 </div>
 
-                {/* Select Service */}
                 <div>
                   <label className="flex items-center gap-3 text-lg font-medium text-zinc-700 mb-3">
                     <ListChecks className="w-6 h-6 text-emerald-600" />
@@ -139,7 +131,7 @@ const { offices } = useSelector((state) => state.office);
                   </select>
                 </div>
 
-                {/* Submit */}
+              
                 <button
                   type="submit"
                   disabled={isLoading || !selectedOffice || !selectedService}
@@ -168,7 +160,6 @@ const { offices } = useSelector((state) => state.office);
           </div>
         </div>
 
-        {/* Footer note */}
         <p className="text-center text-zinc-500 mt-10 text-sm">
           Powered by QueueLess • {user?.name || "Welcome"}
         </p>
