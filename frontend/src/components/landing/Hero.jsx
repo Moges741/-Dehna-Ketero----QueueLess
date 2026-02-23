@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <section className={`${styles.heroBg} min-h-screen flex items-center`}>
         <div className={styles.overlay} ></div>
-        {/* Content */}
+  
         <div className="relative z-10 max-w-7xl mx-auto px-6">
 <div className="max-w-2xl">
     <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">Smart Queue <br />
@@ -16,7 +16,7 @@ const Hero = () => {
         Skip long waiting lines. Book your service ticket online,
             track your turn in real time, and arrive exactly when needed.
     </p>
-    {/* CTA Buttons */}
+
     <div className="mt-8 flex gap-4">
            <button className="px-8 py-4 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition shadow-lg">
               <Link to="/create-ticket">Get Ticket</Link>
@@ -26,7 +26,6 @@ const Hero = () => {
               Learn More
             </button>
     </div>
-       {/* Stats (Product Feel) */}
           <div className="mt-12 flex gap-10 text-white">
             <div>
               <p className="text-3xl font-bold">20+</p>
