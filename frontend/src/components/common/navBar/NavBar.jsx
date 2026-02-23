@@ -48,7 +48,7 @@ const NavBar = () => {
         </Link>
 
         <div className="hidden md:flex gap-10 font-medium text-sm">
-          <Link to="/how-it-works" className="hover:text-green-500 transition">
+          <Link to="/how-it-works" className="font-medium text-base hover:text-primary-600 transition">
             How It Works
           </Link>
 
