@@ -22,7 +22,18 @@ export const registerUser = createAsyncThunk(
       const res = await axios.post(`${API_URL}/register`, userData);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.msg || "Registration failed");
+      // Improved error extraction - try multiple possible locations
+      const errorMessage = 
+        err.response?.data?.msg || 
+        err.response?.data?.message || 
+        err.response?.data?.error || 
+        err.response?.data || 
+        err.message || 
+        "Registration failed - please check your connection or try again";
+
+      console.error("Registration error:", err.response || err); // debug
+
+      return rejectWithValue(errorMessage);
     }
   }
 );

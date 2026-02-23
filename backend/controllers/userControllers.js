@@ -9,83 +9,73 @@ import db from "../config/db.js";
  */
 export const registerUser = async (req, res) => {
   try {
-    let { name, email, phone, password, role, office_id } = req.body;
+    let { name, email, phone, password, role } = req.body;
 
-    // 🛡 XSS Sanitize
     name = xss(name?.trim());
     email = xss(email?.trim());
     phone = xss(phone?.trim());
-    role = xss(role?.trim());
+    role = xss(role?.trim() || "user");
 
-    // Validation
-    if (!name || !email || !phone || !password || !role) {
+    if (!name || !email || !phone || !password) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        msg: "All fields are required",
+        msg: "Name, email, phone, and password are required"
       });
     }
 
-    // Check duplicate user
-    const checkQuery =
-      "SELECT id FROM users WHERE email = ? OR phone = ? LIMIT 1";
+    const checkQuery = "SELECT id FROM users WHERE email = ? OR phone = ? LIMIT 1";
 
     db.query(checkQuery, [email, phone], async (err, result) => {
       if (err) {
-        console.error(err);
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ msg: "Database error" });
+        console.error("DB check error:", err);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Database error" });
       }
 
       if (result.length > 0) {
         return res.status(StatusCodes.CONFLICT).json({
-          msg: "User already exists",
+          msg: "User already exists"  // ← this is working on second try
         });
       }
 
-      // Hash password
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      // Insert user
       const insertQuery = `
-        INSERT INTO users (name, email, phone, password_hash, role, office_id)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO users (name, email, phone, password_hash, role)
+        VALUES (?, ?, ?, ?, ?)
       `;
 
       db.query(
         insertQuery,
-        [name, email, phone, hashedPassword, role, office_id],
-        (err) => {
+        [name, email, phone, hashedPassword, role],
+        (err, insertResult) => {
           if (err) {
-            console.error(err);
-            return res
-              .status(StatusCodes.INTERNAL_SERVER_ERROR)
-              .json({ msg: "Failed to create user" });
+            console.error("Insert error:", err);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+              msg: "Failed to create user - database issue"
+            });
           }
 
-return res.status(StatusCodes.CREATED).json({
-  msg: "User registered successfully",
-  user: {
-    id: insertResult.insertId,
-    name,
-    email,
-    phone,
-    role: role || "user"
-  },
-  token: jwt.sign(
-    { userId: insertResult.insertId, phone, role: role || "user" },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  )
-});
+          // Optional: auto-login after register (recommended)
+          const newUser = { id: insertResult.insertId, name, email, role };
+          const token = jwt.sign(
+            { userId: newUser.id, phone: newUser.phone, role: newUser.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+          );
+
+          return res.status(StatusCodes.CREATED).json({
+            msg: "User registered successfully",
+            user: newUser,
+            token
+          });
         }
       );
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Server error" });
+    console.error("Unexpected registration error:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      msg: "Server error - please try again later"
+    });
   }
 };
 
