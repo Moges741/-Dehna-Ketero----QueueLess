@@ -40,7 +40,8 @@ app.use('/api/office',authMiddleware, officeRoutes);
 app.use('/api/service',authMiddleware, serviceRoutes);
 // // queue Routes
 app.use('/api/queue',authMiddleware, queueRoutes);
-// // ticket Routes
+ // ticket Routes
+
 app.use('/api/ticket',authMiddleware, ticketRoutes);
 
 const PORT = process.env.PORT || 5000;

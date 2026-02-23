@@ -17,6 +17,10 @@ export const createTicket = async (req, res) => {
       });
 
     }
+    if (!userId) {
+      console.error("No userId found - auth middleware issue");
+      return res.status(401).json({ msg: "Unauthorized - no user ID" });
+    }
         const today = new Date().toISOString().split("T")[0];
 
         // Get last ticket number today
@@ -28,7 +32,7 @@ export const createTicket = async (req, res) => {
     `;
  dbConnection.query(lastTicketQuery, [service_id, today], (err, result) => {
       if (err) {
-        return res.status(500).json({ msg: "DB Error" });
+        return res.status(500).json({ msg: "DB Error", error: err.message });
       }
 
       let nextNumber = 1;
