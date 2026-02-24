@@ -21,6 +21,7 @@ app.use(cors({
     'https://queueless-qyxg.onrender.com',
     'https://queueless-ethio.vercel.app/'
   ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
 
