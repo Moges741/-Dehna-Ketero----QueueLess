@@ -13,23 +13,14 @@ import ticketRoutes from './routes/ticketRoutes.js';
 dotenv.config();
 
 const app = express();
-const allowedOrigins = [
-  'http://localhost:5173', 
-  'https://queueless-ethio.vercel.app/'
-];
+
 // CORS setup
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: true,                   
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
-
 // Test DB Connection
 dbConnection.getConnection((err) => {
   if (err) {
