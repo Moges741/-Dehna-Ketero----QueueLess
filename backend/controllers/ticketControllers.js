@@ -69,7 +69,7 @@ export const createTicket = async (req, res) => {
 // get my ticket
 export const getMyTickets = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.userId;
 
     const sql = `
       SELECT * FROM tickets
@@ -129,7 +129,7 @@ export const getSingleTicket = async (req, res) => {
 };
 export const updateTicketStatus = async (req, res) => {
   try {
-    if (!isStaffOrAdmin(req.user.role)) {
+    if (!isStaffOrAdmin(req.userRole)) {
       return res.status(403).json({ msg: "Not authorized" });
     }
 

@@ -5,7 +5,7 @@ import { logout, clearMessages } from "../features/auth/authSlice";
 import { getMyTickets } from "../features/ticket/ticketSlice";
 import { getAllServices } from "../features/service/serviceSlice";
 import { getAllOffices } from "../features/office/officeSlice";
-import { Ticket, Users, Building2, ListChecks, Clock, LogOut, RefreshCw } from "lucide-react";
+import { Ticket, Users, Building2, ListChecks, Clock, LogOut, RefreshCw, PhoneCall } from "lucide-react";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,6 @@ const Dashboard = () => {
 
   const activeOffices = offices.filter(o => o.is_active).length;
   const activeServices = services.filter(s => s.is_active).length;
-  const waitingTickets = myTickets.filter(t => t.status === "waiting").length;
 
   const currentTicket = myTickets.find(t => ["waiting", "serving"].includes(t.status));
 

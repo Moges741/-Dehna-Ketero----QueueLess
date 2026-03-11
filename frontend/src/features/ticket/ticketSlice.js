@@ -127,6 +127,7 @@ const initialState = {
   queues: {}, 
   currentQueue: [],
   currentServiceId: null,
+  currentTicket: null,
   isLoading: false,
   error: null,
   successMsg: null,
@@ -144,6 +145,7 @@ const ticketSlice = createSlice({
     clearTicketMessages: (state) => {
       state.error = null;
       state.successMsg = null;
+      state.currentTicket = null;
     },
     setCurrentService: (state, action) => {
       state.currentServiceId = action.payload;
@@ -152,8 +154,18 @@ const ticketSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Create
+      .addCase(createTicket.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(createTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentTicket = action.payload;
         state.successMsg = `Ticket #${action.payload.ticketNumber} created!`;
+      })
+      .addCase(createTicket.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       })
 
       // My Tickets
