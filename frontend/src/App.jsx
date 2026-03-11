@@ -1,4 +1,4 @@
-import {React, useState } from 'react'
+import React from 'react'
 // import './App.css'git 
 import NavBar from './components/common/navBar/NavBar'
 import Landing from './Landing'

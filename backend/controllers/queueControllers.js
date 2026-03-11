@@ -21,7 +21,7 @@ export const getQueueStatus = (req, res) => {
   });
 };
 export const callNextTicket = (req, res) => {
-  if (!isStaff(req.user.role)) {
+  if (!isStaff(req.userRole)) {
     return res.status(403).json({ msg: "Not authorized" });
   }
 

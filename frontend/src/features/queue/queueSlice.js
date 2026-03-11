@@ -43,7 +43,7 @@ export const getWaitingCount = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data.waiting || 0;
-    } catch (err) {
+    } catch {
       return rejectWithValue("Failed to get waiting count");
     }
   }
@@ -58,7 +58,7 @@ export const getEstimatedTime = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data.estimated_minutes || 0;
-    } catch (err) {
+    } catch {
       return rejectWithValue("Failed to get estimated time");
     }
   }
